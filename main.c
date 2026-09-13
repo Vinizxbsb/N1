@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+//Função para limpar o buffer do teclado, porque o fgets não funciona corretamente com o scanf.//
 void limpar_buffer(void) {
     int caractere;
 
@@ -9,10 +9,12 @@ void limpar_buffer(void) {
     }
 }
     int opcao; 
+//Define para o número máximo de clientes e carros que podem ser cadastrados.
 #define MAX_CLIENTES 50
 
 int main(){   
-     char nome_cliente[MAX_CLIENTES][50];
+//Variaveis para armazenar os dados dos clientes e carros.
+    char nome_cliente[MAX_CLIENTES][50];
     char cpf_cliente[MAX_CLIENTES][12];
     float renda_cliente[MAX_CLIENTES];
     float renda_anual[MAX_CLIENTES];
@@ -25,11 +27,10 @@ int main(){
     int ano_carro[MAX_CLIENTES];
     int opcao_parcelas;
     float limite_venda[MAX_CLIENTES];
-    
+//Variaveis para controlar o número de clientes e carros cadastrados.
     int total_clientes = 0;
     int total_carros = 0;
-
-
+//Do com o loop para exibir o menu e receber as opções do usuário.
     do{
         printf("\n ==== Menu ==== \n");
         printf("1- Cadastro de cliente \n");
@@ -41,7 +42,7 @@ int main(){
         printf("Digite a opcao: \n");
         scanf(" %d", &opcao);
         limpar_buffer();
-
+//Switch case para tratar as opções do menu.
         switch (opcao){
             case 1:
                 printf("Digite o nome do cliente: \n");
@@ -55,7 +56,7 @@ int main(){
                 printf("O cliente possui cnh? (S||N)\n");
                 scanf(" %c", &cnh[total_clientes]);
                 limpar_buffer();
-
+//if para verificar se o cliente possui CNH e calcular a renda anual e o limite de venda.
                 if( cnh[total_clientes] == 's' || cnh[total_clientes] == 'S'){
                     renda_anual[total_clientes] = renda_cliente[total_clientes] * 12;
                     limite_venda[total_clientes] = (renda_anual[total_clientes] * 0.3) / 12;
@@ -78,6 +79,7 @@ int main(){
                     printf("Valor inválido!");
                 }
                 break;
+//Case 2 para cadastrar os carros.
             case 2:
                 printf("Digite a marca do carro: \n");
                 scanf("%49s", marca_carro[total_carros]);
@@ -92,6 +94,7 @@ int main(){
                 strcpy(status_cliente[total_carros], "Cadastrado");
 
                 break;
+//Case 3 para efetuar a venda do carro para o cliente.
             case 3: {
                 printf("Deseja efetuar a compra do veículo? (S/N) \n");
                 char opcao_compra;
@@ -132,6 +135,7 @@ int main(){
                                 valor_parcela = -1;
                                 break;
                         }
+//if para verificar se o valor da parcela é maior que o limite de 30% da renda mensal do cliente e exibir a mensagem de aprovação ou reprovação da compra.
                         if (valor_parcela != -1) {
                             if (valor_parcela > limite_venda[total_clientes - 1]){
                                 printf("O valor da parcela excede o limite de 30%% da renda mensal do cliente! \n");
@@ -152,6 +156,7 @@ int main(){
                 }
                 break;
             }
+//Case 4 para listar os clientes cadastrados.
             case 4:
                 printf("\n==== Lista de clientes ====\n");
                 if (total_clientes == 0){
