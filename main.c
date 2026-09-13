@@ -8,24 +8,24 @@ void limpar_buffer(void) {
     while ((caractere = getchar()) != '\n' && caractere != EOF) {
     }
 }
-    int opcao;
-//Dados do cliente  
+    int opcao; 
 #define MAX_CLIENTES 50
-    char nome_cliente[MAX_CLIENTES][50];
+
+int main(){   
+     char nome_cliente[MAX_CLIENTES][50];
     char cpf_cliente[MAX_CLIENTES][12];
     float renda_cliente[MAX_CLIENTES];
     float renda_anual[MAX_CLIENTES];
     char status_cliente[MAX_CLIENTES][15];
     char cnh[MAX_CLIENTES];
-//Dados do carro
+
     char marca_carro[MAX_CLIENTES][50];
     char modelo_carro[MAX_CLIENTES][50];
     float preco_venda[MAX_CLIENTES];
     int ano_carro[MAX_CLIENTES];
     int opcao_parcelas;
     float limite_venda[MAX_CLIENTES];
-
-int main(){   
+    
     int total_clientes = 0;
     int total_carros = 0;
 
@@ -35,6 +35,7 @@ int main(){
         printf("1- Cadastro de cliente \n");
         printf("2- Cadastro de carro \n");
         printf("3- Venda \n");
+        printf("4- Listar clientes \n");
         printf("0- Sair \n");
 
         printf("Digite a opcao: \n");
@@ -45,6 +46,7 @@ int main(){
             case 1:
                 printf("Digite o nome do cliente: \n");
                 fgets(nome_cliente[total_clientes], 49, stdin);
+                nome_cliente[total_clientes][strcspn(nome_cliente[total_clientes], "\n")] = '\0'; // Remove o caractere de nova linha
                 printf("Digite o CPF do cliente: \n");
                 scanf(" %11s", cpf_cliente[total_clientes]);
                 limpar_buffer();
@@ -127,14 +129,16 @@ int main(){
                                 break;
                             default:
                                 printf("Opção inválida! \n");
-                                valor_parcela = -1; // Sinaliza que a parcela deu erro
+                                valor_parcela = -1;
                                 break;
                         }
                         if (valor_parcela != -1) {
                             if (valor_parcela > limite_venda[total_clientes - 1]){
                                 printf("O valor da parcela excede o limite de 30%% da renda mensal do cliente! \n");
+                                strcpy(status_cliente[total_clientes - 1], "Reprovado");
                             } else {
                                 printf("O valor da parcela fica em: R$%.2f por mês\n", valor_parcela);
+                                strcpy(status_cliente[total_clientes - 1], "Aprovado");
                                 printf("Compra realizada com sucesso! \n");
                             }
                         }
@@ -148,6 +152,27 @@ int main(){
                 }
                 break;
             }
+            case 4:
+                printf("\n==== Lista de clientes ====\n");
+                if (total_clientes == 0){
+                    printf("Nenhum cliente cadastrado!\n");
+                }
+                for (int i = 0; i < total_clientes; i++){
+                    printf("Cliente %d:\n", i + 1);
+                    printf("Nome: %s\n", nome_cliente[i]);
+                    printf("CPF: %s\n", cpf_cliente[i]);
+                    printf("Renda: %.2f\n", renda_cliente[i]);
+                    printf("Renda anual: %.2f\n", renda_anual[i]);
+                    printf("Possui CNH: %c\n", cnh[i]);
+                    printf("Status: %s\n", status_cliente[i]);
+                    printf("-------------------------\n");
+                }
+                break;
+            case 0:
+                printf("Saindo do programa...\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
         }
     }while (opcao != 0);
     return 0;
