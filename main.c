@@ -1,35 +1,35 @@
 #include <stdio.h>
 
 int main() {
-    // Variaveis de controle
+
     int opcao;
     int total_clientes = 0;
     int total_carros = 0;
-    int i, c; // Variaveis de controle para os lacos for
+    int i, c; 
 
-    // Vetores simples para armazenar ate 50 clientes
+    
     char nome_cliente[50][50];
     char cpf_cliente[50][12];
     float renda_cliente[50];
     char data_nascimento[50][11];
     float renda_anual[50];
-    int status_cliente[50]; // 1 = Cadastrado/Em Analise, 2 = Aprovado, 3 = Reprovado
+    int status_cliente[50]; 
     char cnh[50];
     float limite_venda[50];
 
-    // Vetores simples para armazenar ate 50 carros
+    
     char marca_carro[50][50];
     char modelo_carro[50][50];
     float preco_venda[50];
     int ano_carro[50];
 
-    // Variaveis auxiliares para operacoes de venda
+    
     int id_cliente_sel, id_carro_sel;
     char opcao_confirmacao;
     int opcao_parcelas;
     float valor_parcela;
 
-    // Loop do menu principal (while/do-while)
+    
     do {
         printf("\n==== Menu ====\n");
         printf("1- Cadastro de cliente\n");
@@ -41,7 +41,7 @@ int main() {
         printf("Digite a opcao: ");
         scanf("%d", &opcao);
 
-        // Estrutura switch para tratar o menu
+        
         switch (opcao) {
             case 1:
                 if (total_clientes >= 50) {
@@ -65,11 +65,11 @@ int main() {
                 printf("O cliente possui CNH? (S/N): ");
                 scanf(" %c", &cnh[total_clientes]);
 
-                // Estrutura if/else para regra de negocios da CNH
+                
                 if (cnh[total_clientes] == 's' || cnh[total_clientes] == 'S') {
                     renda_anual[total_clientes] = renda_cliente[total_clientes] * 12;
-                    limite_venda[total_clientes] = renda_cliente[total_clientes] * 0.30; // 30% da renda mensal
-                    status_cliente[total_clientes] = 1; // 1 = Em Analise / Cadastrado
+                    limite_venda[total_clientes] = renda_cliente[total_clientes] * 0.30; 
+                    status_cliente[total_clientes] = 1; // 
 
                     printf("\n==== Dados do Cliente Cadastrado ====\n");
                     printf("Nome: %s\n", nome_cliente[total_clientes]);
@@ -119,7 +119,7 @@ int main() {
 
                 printf("\n--- Venda de Veiculo ---\n");
 
-                // 1. SELECAO DO CLIENTE
+                
                 printf("\nSelecione o cliente comprador:\n");
                 for (i = 0; i < total_clientes; i++) {
                     printf("  [%d] Nome: %s | CPF: %s | Limite de Parcela: R$%.2f\n", 
@@ -128,14 +128,13 @@ int main() {
                 printf("Digite o numero do cliente (1 a %d): ", total_clientes);
                 scanf("%d", &id_cliente_sel);
 
-                // Valida se o ID escolhido existe
                 if (id_cliente_sel < 1 || id_cliente_sel > total_clientes) {
                     printf("Cliente invalido!\n");
                     break;
                 }
-                id_cliente_sel--; // Ajusta para o indice do vetor (0 a total_clientes - 1)
+                id_cliente_sel--; 
 
-                // 2. SELECAO DO CARRO
+                
                 printf("\nSelecione o carro a ser comprado:\n");
                 for (c = 0; c < total_carros; c++) {
                     printf("  [%d] Marca: %s | Modelo: %s | Preco: R$%.2f\n", 
@@ -144,14 +143,14 @@ int main() {
                 printf("Digite o numero do carro (1 a %d): ", total_carros);
                 scanf("%d", &id_carro_sel);
 
-                // Valida se o ID escolhido existe
+                
                 if (id_carro_sel < 1 || id_carro_sel > total_carros) {
                     printf("Carro invalido!\n");
                     break;
                 }
-                id_carro_sel--; // Ajusta para o indice do vetor (0 a total_carros - 1)
+                id_carro_sel--;
 
-                // 3. CONFIRMACAO E PARCELAMENTO
+
                 printf("\nResumo do Pedido:\n");
                 printf("Cliente: %s\n", nome_cliente[id_cliente_sel]);
                 printf("Veiculo: %s %s (R$%.2f)\n", marca_carro[id_carro_sel], modelo_carro[id_carro_sel], preco_venda[id_carro_sel]);
@@ -165,7 +164,7 @@ int main() {
 
                     valor_parcela = 0.0;
 
-                    // Switch para calcular as parcelas
+
                     switch (opcao_parcelas) {
                         case 12:
                             valor_parcela = preco_venda[id_carro_sel] / 12;
@@ -185,7 +184,7 @@ int main() {
                             break;
                     }
 
-                    // Avaliacao de aprovacao com base no limite do cliente selecionado
+                    
                     if (valor_parcela != -1) {
                         if (valor_parcela > limite_venda[id_cliente_sel]) {
                             printf("\nREPROVADO: O valor da parcela (R$%.2f) excede o limite de 30%% da renda do cliente %s (R$%.2f)!\n", 
@@ -207,7 +206,7 @@ int main() {
                 if (total_clientes == 0) {
                     printf("Nenhum cliente cadastrado!\n");
                 } else {
-                    // Laco for para percorrer os clientes
+        
                     for (i = 0; i < total_clientes; i++) {
                         printf("Cliente %d:\n", i + 1);
                         printf("  Nome: %s\n", nome_cliente[i]);
@@ -216,7 +215,7 @@ int main() {
                         printf("  Renda Anual: R$%.2f\n", renda_anual[i]);
                         printf("  Possui CNH: %c\n", cnh[i]);
 
-                        // Exibicao simplificada do status sem usar strcmp ou strcpy
+                        
                         printf("  Status da Compra: ");
                         switch (status_cliente[i]) {
                             case 1:
@@ -242,7 +241,7 @@ int main() {
                 if (total_carros == 0) {
                     printf("Nenhum carro cadastrado!\n");
                 } else {
-                    // Laco for para percorrer os carros
+                    
                     for (c = 0; c < total_carros; c++) {
                         printf("Carro %d:\n", c + 1);
                         printf("  Marca: %s\n", marca_carro[c]);
